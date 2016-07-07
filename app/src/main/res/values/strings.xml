@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MenuTestApp</string>
+    <string name="frag1">Fragment1</string>
+    <string name="frag2">Fragment2</string>
+    <string name="All">Всё</string>
+    <string name="Italy">Италия</string>
+    <string name="Panaziya">Паназия</string>
+</resources>
