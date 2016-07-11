@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     final static String FRAG_1 = "FRAGMENT_1";
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnItaly;
     Button btnPanaziya;
 
+    ArrayList<Integer> buttonPressedBackStack;
     int pressedButton;
 
     @Override
@@ -44,17 +47,21 @@ public class MainActivity extends AppCompatActivity {
         btnAll.setOnClickListener(listenBtn);
         btnItaly.setOnClickListener(listenBtn);
         btnPanaziya.setOnClickListener(listenBtn);
+        buttonPressedBackStack = new ArrayList<Integer>();
+
+        buttonPressedBackStack.add(BTN_ALL);
 
         if(savedInstanceState != null) {
-            pressedButton = savedInstanceState.getInt("state");
-            switch (pressedButton) {
-                case 1:
+            buttonPressedBackStack = savedInstanceState.getIntegerArrayList("backStack");
+            int index = buttonPressedBackStack.size() - 1;
+            switch (buttonPressedBackStack.get(index)) {
+                case BTN_ALL:
                     btnAll.callOnClick();
                     break;
-                case 2:
+                case BTN_ITALY:
                     btnItaly.callOnClick();
                     break;
-                case 3:
+                case BTN_PANAZIYA:
                     btnPanaziya.callOnClick();
                     break;
                 default:
@@ -67,8 +74,31 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("state", pressedButton);
+        outState.putIntegerArrayList("backStack", buttonPressedBackStack);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onBackPressed() {
+        buttonPressedBackStack.remove(buttonPressedBackStack.size() - 1);
+        int index = buttonPressedBackStack.size() - 1;
+        if(index >= 0) {
+            switch (buttonPressedBackStack.get(index)) {
+                case BTN_ALL:
+                    btnAll.callOnClick();
+                break;
+                case BTN_ITALY:
+                    btnItaly.callOnClick();
+                    break;
+                case BTN_PANAZIYA:
+                    btnPanaziya.callOnClick();
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            this.finish();
+        }
     }
 
     public void clickButtonAll() {
@@ -88,10 +118,13 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentTrans.replace(R.id.fragment_cont, fragmentMenuAll);
 
-        fragmentTrans.addToBackStack(null);
+        if(buttonPressedBackStack.lastIndexOf(BTN_ALL) != (buttonPressedBackStack.size() - 1)) {
+            buttonPressedBackStack.add(BTN_ALL);
+        }
+
         pressedButton = BTN_ALL;
-        btnItaly.setTextColor(Color.parseColor("#767e7e"));
-        btnPanaziya.setTextColor(Color.parseColor("#767e7e"));
+        btnItaly.setTextColor(getResources().getColor(R.color.colorTextButton));
+        btnPanaziya.setTextColor(getResources().getColor(R.color.colorTextButton));
         btnAll.setTextColor(Color.WHITE);
     }
 
@@ -112,10 +145,13 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentTrans.replace(R.id.fragment_cont, fragmentMenuItaly);
 
-        fragmentTrans.addToBackStack(null);
+        if(buttonPressedBackStack.lastIndexOf(BTN_ITALY) != (buttonPressedBackStack.size() - 1)) {
+            buttonPressedBackStack.add(BTN_ITALY);
+        }
+
         pressedButton = BTN_ITALY;
-        btnAll.setTextColor(Color.parseColor("#767e7e"));
-        btnPanaziya.setTextColor(Color.parseColor("#767e7e"));
+        btnAll.setTextColor(getResources().getColor(R.color.colorTextButton));
+        btnPanaziya.setTextColor(getResources().getColor(R.color.colorTextButton));
         btnItaly.setTextColor(Color.WHITE);
     }
 
@@ -136,12 +172,16 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentTrans.replace(R.id.fragment_cont, fragmentMenuPan);
 
-        fragmentTrans.addToBackStack(null);
+        if(buttonPressedBackStack.lastIndexOf(BTN_PANAZIYA) != (buttonPressedBackStack.size() - 1)) {
+            buttonPressedBackStack.add(BTN_PANAZIYA);
+        }
+
         pressedButton = BTN_PANAZIYA;
-        btnAll.setTextColor(Color.parseColor("#767e7e"));
-        btnItaly.setTextColor(Color.parseColor("#767e7e"));
+        btnAll.setTextColor(getResources().getColor(R.color.colorTextButton));
+        btnItaly.setTextColor(getResources().getColor(R.color.colorTextButton));
         btnPanaziya.setTextColor(Color.WHITE);
     }
+
 
     View.OnClickListener listenBtn = new View.OnClickListener() {
         @Override
@@ -162,7 +202,6 @@ public class MainActivity extends AppCompatActivity {
                 default:
                     break;
             }
-            fragmentTrans.addToBackStack(null);
             fragmentTrans.commit();
         }
     };

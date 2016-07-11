@@ -23,7 +23,7 @@ public class FragmentMenuItaly extends Fragment {
     RecyclerView mRecyclerView;
     MenuAdapter mAdapter;
     Context mContext;
-    FragmentSaveListState fragmentSaveItalyMenuState;
+    FragmentSaveState fragmentSaveItalyMenuState;
     int rotate;
 
     @Override
@@ -43,7 +43,7 @@ public class FragmentMenuItaly extends Fragment {
         mRecyclerView = (RecyclerView) fragment_view.findViewById(R.id.menu_recycler_italy);
 
 
-        fragmentSaveItalyMenuState = (FragmentSaveListState) getFragmentManager().findFragmentByTag(FRAG_SAVE_ITALY);
+        fragmentSaveItalyMenuState = (FragmentSaveState) getFragmentManager().findFragmentByTag(FRAG_SAVE_ITALY);
 
         rotate = getActivity().getWindowManager().getDefaultDisplay().getRotation();
         if((fragmentSaveItalyMenuState != null) && (fragmentSaveItalyMenuState.getRotation() != rotate)) {
@@ -51,7 +51,7 @@ public class FragmentMenuItaly extends Fragment {
             mAdapter.setOpenItemList(fragmentSaveItalyMenuState.getOpenItemList());
             mAdapter.externalList = getMenuList();
         } else {
-            fragmentSaveItalyMenuState = new FragmentSaveListState();
+            fragmentSaveItalyMenuState = new FragmentSaveState();
             fragmentSaveItalyMenuState.setRotation(rotate);
             getFragmentManager().beginTransaction()
                     .add(fragmentSaveItalyMenuState, FRAG_SAVE_ITALY)

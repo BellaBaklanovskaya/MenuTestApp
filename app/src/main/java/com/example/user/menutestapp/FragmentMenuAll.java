@@ -23,7 +23,7 @@ public class FragmentMenuAll extends Fragment {
     RecyclerView mRecyclerView;
     MenuAdapter mAdapter;
     Context mContext;
-    FragmentSaveListState fragmentSaveAllMenuState;
+    FragmentSaveState fragmentSaveAllMenuState;
     int rotate;
 
     @Override
@@ -41,7 +41,7 @@ public class FragmentMenuAll extends Fragment {
         mContext = getActivity().getApplicationContext();
         mRecyclerView = (RecyclerView) fragment_view.findViewById(R.id.menu_recycler_all);
 
-        fragmentSaveAllMenuState = (FragmentSaveListState) getFragmentManager().findFragmentByTag(FRAG_SAVE);
+        fragmentSaveAllMenuState = (FragmentSaveState) getFragmentManager().findFragmentByTag(FRAG_SAVE);
 
         rotate = getActivity().getWindowManager().getDefaultDisplay().getRotation();
         if((fragmentSaveAllMenuState != null) && (fragmentSaveAllMenuState.getRotation() != rotate)) {
@@ -49,7 +49,7 @@ public class FragmentMenuAll extends Fragment {
             mAdapter.setOpenItemList(fragmentSaveAllMenuState.getOpenItemList());
             mAdapter.externalList = getMenuList();
         } else {
-            fragmentSaveAllMenuState = new FragmentSaveListState();
+            fragmentSaveAllMenuState = new FragmentSaveState();
             fragmentSaveAllMenuState.setRotation(rotate);
             getFragmentManager().beginTransaction()
                     .add(fragmentSaveAllMenuState, FRAG_SAVE)

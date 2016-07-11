@@ -9,7 +9,10 @@ import com.example.user.menutestapp.RecyclerViewMenuAll.MenuItems.Item;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class FragmentSaveListState extends Fragment {
+/**
+ * Created by User on 11.07.2016.
+ */
+public class FragmentSaveState extends Fragment {
     private ArrayList<Item> mListState;
     private LinkedList<ExternalItem> mOpenItemSave;
     private int mRotation;
